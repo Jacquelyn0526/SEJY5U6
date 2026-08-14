@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-MY">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五年级历史单元6：国家独立之路与斗士</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background-color: #f4f7f6; margin: 0; padding: 0; min-height: 100vh; color: #2d3748; }
+
+        /* 全局卡片与过渡动画 */
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+        }
+
+        /* 模块一：斗士自测样式 */
+        .avatar-img { 
+            width: 150px; 
+            height: 180px; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            border: 4px solid #4a90e2; 
+            margin: 0 auto 16px auto; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        }
+        
+        .btn-voice { 
+            background: #e2e8f0; 
+            border: none; 
+            border-radius: 50%; 
+            width: 36px; 
+            height: 36px; 
+            min-width: 36px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.2s; 
+            color: #2b6cb0; 
+        }
+        .btn-voice:hover { background: #cbd5e0; transform: scale(1.08); }
+
+        .btn-voice-q { 
+            background: #ebf8ff; 
+            border: 1px solid #3182ce; 
+            border-radius: 20px; 
+            padding: 6px 12px; 
+            cursor: pointer; 
+            font-size: 13px; 
+            font-weight: bold; 
+            color: #2b6cb0; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px; 
+            transition: all 0.2s; 
+            flex-shrink: 0; 
+        }
+        .btn-voice-q:hover { background: #bee3f8; }
+
+        .btn-option { 
+            flex-grow: 1; 
+            background: #f8f9fa; 
+            border: 2px solid #e9ecef; 
+            border-radius: 10px; 
+            padding: 12px 14px; 
+            font-size: 15px; 
+            text-align: left; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            color: #2d3748; 
+            line-height: 1.4; 
+        }
+        .btn-option:hover { background: #edf2f7; border-color: #cbd5e0; }
+        .btn-option.correct { background-color: #c6f6d5 !important; border-color: #38a169 !important; color: #22543d !important; font-weight: bold; }
+        .btn-option.wrong { background-color: #fed7d7 !important; border-color: #e53e3e !important; color: #742a2a !important; }
+        
+        .explanation { 
+            margin-top: 16px; 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            text-align: left; 
+            display: none; 
+            line-height: 1.5; 
+        }
+        .explanation.correct-bg { background-color: #e6fffa; color: #234e52; border-left: 4px solid #319795; }
+        .explanation.wrong-bg { background-color: #fff5f5; color: #742a2a; border-left: 4px solid #e53e3e; }
+
+        /* 模块二：独立之路样式 */
+        .timeline-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .time-tag {
+            background: #003399;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .timeline-title { font-weight: bold; font-size: 15px; color: #cc0000; margin-bottom: 8px; }
+        .timeline-text { font-size: 14px; line-height: 1.85; color: #333; }
+
+        .drop-slot {
+            display: inline-block;
+            min-width: 85px;
+            height: 30px;
+            line-height: 28px;
+            border: 2px dashed #003399;
+            background-color: #eef5ff;
+            border-radius: 6px;
+            text-align: center;
+            color: #003399;
+            font-weight: bold;
+            padding: 0 8px;
+            margin: 2px 4px;
+            vertical-align: middle;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        .shake-bounce {
+            animation: shake 0.4s ease-in-out;
+            border-color: #dc3545 !important;
+            background-color: #ffe6e6 !important;
+            color: #dc3545 !important;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .correct-slot {
+            border: 2px solid #28a745 !important;
+            background-color: #e8f8ec !important;
+            color: #28a745 !important;
+            cursor: default;
+        }
+        .flag-anim {
+            position: absolute;
+            right: -8px;
+            top: -12px;
+            font-size: 18px;
+            animation: wave 0.8s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        @keyframes wave {
+            0% { transform: rotate(-12deg); }
+            100% { transform: rotate(18deg); }
+        }
+
+        .sticky-options {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #ffffff;
+            border-top: 2px solid #cbd5e1;
+            padding: 10px 14px 14px 14px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+            z-index: 100;
+        }
+        .option-btn {
+            background: #f8fafc;
+            border: 1.5px solid #94a3b8;
+            color: #1e293b;
+            padding: 6px 11px;
+            border-radius: 16px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .option-btn:active { transform: scale(0.95); }
+        .option-btn.selected { background: #003399; color: white; border-color: #003399; font-weight: bold; box-shadow: 0 2px 6px rgba(0,51,153,0.3); }
+        .option-btn.used { opacity: 0.25; pointer-events: none; text-decoration: line-through; background: #e2e8f0; border-color: #cbd5e1; }
+
+        /* Toast 消息框 */
+        .toast-message {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(15, 23, 42, 0.92);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 300;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .toast-message.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部统一导航栏 -->
+    <header class="bg-gradient-to-r from-blue-900 via-blue-800 to-red-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🇲🇾</span>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg leading-tight">五年级历史 单元6</h1>
+                    <p class="text-xs text-yellow-300 font-medium">争取国家独立的斗士与迈向独立之路</p>
+                </div>
+            </div>
+            <button id="btn-back-home" onclick="showView('dashboard')" class="hidden bg-white/20 hover:bg-white/30 text-white text-xs md:text-sm font-semibold px-3 py-1.5 rounded-lg border border-white/30 transition flex items-center gap-1">
+                🏠 返回首页
+            </button>
+        </div>
+    </header>
+
+    <!-- Toast 提示控件 -->
+    <div id="toast" class="toast-message">提示信息</div>
+
+    <main class="max-w-3xl mx-auto px-4 py-6">
+
+        <!-- ================= 首页 (DASHBOARD) ================= -->
+        <section id="view-dashboard" class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center">
+                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">历史互动学习评估平台</span>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">请选择学习方向</h2>
+                <p class="text-slate-500 text-sm max-w-lg mx-auto">请在下方选择您要巩固的知识模块，通过看图识人、知识问答或时间线填空来检验您的掌握情况。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- 选项卡 1：争取国家独立的斗士 -->
+                <div onclick="startTokohModule()" class="card-hover bg-white rounded-2xl p-6 border-2 border-slate-100 hover:border-blue-500 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
+                            🎖️
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 mb-2">争取国家独立的斗士</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed mb-4">
+                            认识 12 位争取国家独立的英雄人物！包含 36 道互动测试题（看图辨人 + 贡献理解），附带中文语音朗读与智能错题强化循环。
+                        </p>
+                    </div>
+                    <div class="flex items-center text-sm font-bold text-blue-600 group-hover:translate-x-1 transition-transform">
+                        进入自测 ➔
+                    </div>
+                </div>
+
+                <!-- 选项卡 2：迈向国家独立之路 -->
+                <div onclick="startTimelineModule()" class="card-hover bg-white rounded-2xl p-6 border-2 border-slate-100 hover:border-red-500 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-red-600 group-hover:text-white transition">
+                            ⏳
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-red-600 mb-2">迈向国家独立之路</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed mb-4">
+                            梳理 1942 年至 1957 年的重大历史事件时间线！包含 19 个关键历史词汇填空评估，锻炼事件因果与历史节点认知。
+                        </p>
+                    </div>
+                    <div class="flex items-center text-sm font-bold text-red-600 group-hover:translate-x-1 transition-transform">
+                        开始填空 ➔
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 模块一：独立斗士自测 (TOKOH) ================= -->
+        <section id="view-tokoh" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                <div class="text-center border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800">争取独立的斗士 (Tokoh Kemerdekaan)</h2>
+                    <div class="bg-slate-200 rounded-full h-3 w-full overflow-hidden mt-3">
+                        <div class="bg-green-500 h-full w-0 transition-all duration-300" id="progressBar"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 mt-2 font-medium">
+                        <span>已掌握：<strong id="completedCount" class="text-green-600">0</strong> / 36</span>
+                        <span>待挑战题数：<strong id="remainingCount" class="text-blue-600">36</strong></span>
+                    </div>
+                </div>
+
+                <div id="quizBox">
+                    <div class="text-center">
+                        <img id="avatar" class="avatar-img" src="" alt="Tokoh Image" style="display:none;" onerror="this.onerror=null; this.src='https://placehold.co/150x180/003399/FFFFFF?text=Tokoh+Image';">
+                        
+                        <div class="bg-slate-50 p-3 md:p-4 rounded-xl border-l-4 border-blue-500 flex items-start justify-between gap-3 mb-5 text-left">
+                            <div class="text-slate-800 font-semibold text-sm md:text-base leading-snug flex-grow" id="questionText">加载中...</div>
+                            <button class="btn-voice-q" onclick="speakCurrentQuestion()" title="朗读题目">🔊 读题</button>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3" id="optionsGrid"></div>
+                        <div id="explanation" class="explanation"></div>
+                        <button id="nextBtn" class="w-full mt-5 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-base shadow-md transition hidden" onclick="loadNextQuestion()">下一题 (Soalan Seterusnya)</button>
+                    </div>
+                </div>
+
+                <div id="completedScreen" class="text-center py-10 hidden">
+                    <div class="text-5xl mb-3">🎉</div>
+                    <h2 class="text-2xl font-bold text-green-600 mb-2">恭喜完成所有练习！</h2>
+                    <p class="text-slate-600 text-sm mb-6">你已经完全掌握了 12 位独立斗士的身份与历史贡献！</p>
+                    <div class="flex justify-center gap-3">
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow transition" onclick="initQuiz()">重新自测 (Mula Semula)</button>
+                        <button class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-2.5 rounded-lg text-sm font-bold transition" onclick="showView('dashboard')">返回首页</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 模块二：独立之路时间线 (TIMELINE) ================= -->
+        <section id="view-timeline" class="hidden space-y-4">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <div class="flex justify-between items-center border-l-4 border-yellow-400 pl-3 mb-3">
+                    <span class="text-base font-bold text-blue-900">迈向独立之路大事记填空</span>
+                    <span id="progress-text" class="text-xs font-bold text-slate-500">进度: 0 / 19</span>
+                </div>
+                <p class="text-xs text-slate-500 mb-2">💡 <b>操作说明：</b>先点击底部【待选词区】的词语，再点击文中【虚线框】填空。</p>
+                
+                <div class="bg-slate-200 rounded-full h-2.5 w-full overflow-hidden mb-5">
+                    <div id="progress-fill" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- 时间线项目列表 -->
+                <div class="space-y-4">
+                    <!-- 1942-1945 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1942 - 1945</span>
+                        <div class="timeline-title">日据时期</div>
+                        <div class="timeline-text">
+                            日据时期带来很多
+                            <span class="drop-slot" data-answer="苦难" onclick="handleSlotClick(this)">点击填空</span>。
+                            <span class="drop-slot" data-answer="地方领袖" onclick="handleSlotClick(this)">点击填空</span>
+                            崛起为国家争取独立。
+                        </div>
+                    </div>
+
+                    <!-- 1946-1948 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1946 - 1948</span>
+                        <div class="timeline-title">马来亚联邦计划</div>
+                        <div class="timeline-text">
+                            英国政府推出
+                            <span class="drop-slot" data-answer="马来亚联邦" onclick="handleSlotClick(this)">点击填空</span>
+                            计划，该计划削弱了
+                            <span class="drop-slot" data-answer="马来统治者" onclick="handleSlotClick(this)">点击填空</span>
+                            的权力。
+                            <span class="drop-slot" data-answer="拿督翁嘉化" onclick="handleSlotClick(this)">点击填空</span>
+                            领导马来人反对该计划，最终于1948年被取代。
+                        </div>
+                    </div>
+
+                    <!-- 1948 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1948</span>
+                        <div class="timeline-title">共产党的威胁</div>
+                        <div class="timeline-text">
+                            马来亚共产党实施暴行，例如杀人、摧毁
+                            <span class="drop-slot" data-answer="锡矿" onclick="handleSlotClick(this)">点击填空</span>
+                            和橡胶园等。政府于1948年宣布全国进入
+                            <span class="drop-slot" data-answer="紧急状态" onclick="handleSlotClick(this)">点击填空</span>。
+                            1955年，
+                            <span class="drop-slot" data-answer="华玲会谈" onclick="handleSlotClick(this)">点击填空</span>
+                            失败。
+                        </div>
+                    </div>
+
+                    <!-- 1951 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1951</span>
+                        <div class="timeline-title">政党的成立</div>
+                        <div class="timeline-text">
+                            各大政党相继成立：
+                            <span class="drop-slot" data-answer="巫统" onclick="handleSlotClick(this)">点击填空</span>
+                            与印度国大党成立于1946年，
+                            <span class="drop-slot" data-answer="马华公会" onclick="handleSlotClick(this)">点击填空</span>
+                            成立于1949年，
+                            <span class="drop-slot" data-answer="泛马来亚伊斯兰党" onclick="handleSlotClick(this)">点击填空</span>
+                            成立于1951年。
+                        </div>
+                    </div>
+
+                    <!-- 1955 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1955</span>
+                        <div class="timeline-title">联合邦立法议会选举</div>
+                        <div class="timeline-text">
+                            巫统、马华公会和国大党组成
+                            <span class="drop-slot" data-answer="联盟" onclick="handleSlotClick(this)">点击填空</span>
+                            参加1955年选举并获胜。
+                            <span class="drop-slot" data-answer="东姑阿都拉曼" onclick="handleSlotClick(this)">点击填空</span>
+                            受委为
+                            <span class="drop-slot" data-answer="首席部长" onclick="handleSlotClick(this)">点击填空</span>
+                            并与英国谈判。
+                        </div>
+                    </div>
+
+                    <!-- 1956 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1956</span>
+                        <div class="timeline-title">伦敦宪制会谈</div>
+                        <div class="timeline-text">
+                            马来统治者代表和联盟代表组成
+                            <span class="drop-slot" data-answer="独立代表团" onclick="handleSlotClick(this)">点击填空</span>
+                            前往
+                            <span class="drop-slot" data-answer="伦敦" onclick="handleSlotClick(this)">点击填空</span>
+                            谈判，目的是和
+                            <span class="drop-slot" data-answer="英国政府" onclick="handleSlotClick(this)">点击填空</span>
+                            针对独立进行谈判。
+                        </div>
+                    </div>
+
+                    <!-- 1957 -->
+                    <div class="timeline-item">
+                        <span class="time-tag">1957</span>
+                        <div class="timeline-title">马来亚联合邦独立</div>
+                        <div class="timeline-text">
+                            <span class="drop-slot" data-answer="1957年8月31日" onclick="handleSlotClick(this)">点击填空</span>，
+                            东姑阿都拉曼宣布
+                            <span class="drop-slot" data-answer="马来亚联合邦" onclick="handleSlotClick(this)">点击填空</span>
+                            独立。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 模块二专属：底部悬浮候选词库 -->
+    <div id="sticky-options-container" class="sticky-options hidden">
+        <div class="flex justify-between items-center max-w-3xl mx-auto mb-2">
+            <span class="text-xs text-slate-500 font-bold">请选择候选词汇（已随机打乱）：</span>
+            <button class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-blue-900 text-xs px-2.5 py-1 rounded-full font-bold transition" onclick="renderOptions(true)">🔀 重新打乱选项</button>
+        </div>
+        <div class="flex flex-wrap gap-1.5 justify-center max-w-3xl mx-auto max-h-32 overflow-y-auto pr-1" id="options-box">
+            <!-- 词汇按钮动态生成 -->
+        </div>
+    </div>
+
+
+    <script>
+        // ================= 视图路由控制器 =================
+        function showView(viewName) {
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-tokoh').classList.add('hidden');
+            document.getElementById('view-timeline').classList.add('hidden');
+            document.getElementById('sticky-options-container').classList.add('hidden');
+
+            const backBtn = document.getElementById('btn-back-home');
+
+            if (viewName === 'dashboard') {
+                document.getElementById('view-dashboard').classList.remove('hidden');
+                backBtn.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'tokoh') {
+                document.getElementById('view-tokoh').classList.remove('hidden');
+                backBtn.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'timeline') {
+                document.getElementById('view-timeline').classList.remove('hidden');
+                document.getElementById('sticky-options-container').classList.remove('hidden');
+                backBtn.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function startTokohModule() {
+            showView('tokoh');
+            initQuiz();
+        }
+
+        function startTimelineModule() {
+            showView('timeline');
+            renderOptions();
+            updateTimelineProgress();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
+
+        // ================= 模块一：独立斗士自测 逻辑 =================
+        const rawQuestions = [
+            // 1-12 题：看图辨人
+            { id: 1, type: "identify", image: "onn.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["拿督翁嘉化 (Dato' Onn bin Ja'afar)", "敦阿都拉萨 (Tun Abdul Razak)", "布哈努丁赫尔米医生 (Dr. Burhanuddin)", "阿末波斯达曼 (Ahmad Boestamam)"], answer: 0, exp: "拿督翁嘉化 (Dato' Onn bin Ja'afar) 是巫统第一任主席，也是柔佛前州务大臣。" },
+            { id: 2, type: "identify", image: "burhanuddin.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "布哈努丁赫尔米医生 (Dr. Burhanuddin al-Helmi)", "依萨莫哈末 (Ishak Bin Muhammad)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)"], answer: 1, exp: "布哈努丁赫尔米医生提倡“大马来由”(Melayu Raya) 概念，曾领导泛马回教党 (PAS)。" },
+            { id: 3, type: "identify", image: "ahmad.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["敦李孝式 (Tun H.S. Lee)", "敦善班丹 (Tun V. T. Sambanthan)", "阿末波斯达曼 (Ahmad Boestamam)", "东姑阿都拉曼 (Tunku Abdul Rahman)"], answer: 2, exp: "阿末波斯达曼曾任马来觉醒青年团 (API) 团长，并创办了马来亚人民党 (PRM)。" },
+            { id: 4, type: "identify", image: "rahman.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["东姑阿都拉曼 (Tunku Abdul Rahman)", "敦陈桢禄 (Tun Tan Cheng Lock)", "敦阿都拉萨 (Tun Abdul Razak)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)"], answer: 0, exp: "东姑阿都拉曼是马来亚联合邦第一任首相，被誉为“独立之父”。" },
+            { id: 5, type: "identify", image: "ishak.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["拿督翁嘉化 (Dato' Onn bin Ja'afar)", "依萨莫哈末 (Ishak Bin Muhammad)", "阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)"], answer: 1, exp: "依萨莫哈末创办了《马来前锋报》(Utusan Melayu)，曾领导马来亚劳工党。" },
+            { id: 6, type: "identify", image: "abu.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "布哈努丁赫尔米医生 (Dr. Burhanuddin)", "敦善班丹 (Tun V. T. Sambanthan)", "阿末波斯达曼 (Ahmad Boestamam)"], answer: 0, exp: "阿布巴卡阿巴基尔成立了伊斯兰宗教学校 (Maahad al-Ehya Assharif)，领导穆斯林人民党。" },
+            { id: 7, type: "identify", image: "lock.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["敦李孝式 (Tun H.S. Lee)", "敦陈桢禄 (Tun Tan Cheng Lock)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)", "敦阿都拉萨 (Tun Abdul Razak)"], answer: 1, exp: "敦陈桢禄是马华公会 (MCA) 的第一任总会长，促成华人与巫统合作。" },
+            { id: 8, type: "identify", image: "razak.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["东姑阿都拉曼 (Tunku Abdul Rahman)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)", "敦阿都拉萨 (Tun Abdul Razak)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)"], answer: 2, exp: "敦阿都拉萨提呈了《拉萨报告书》，是我国第一任副首相。" },
+            { id: 9, type: "identify", image: "wahab.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["拿督哈芝阿都华合 (Dato' Abdul Wahab)", "依萨莫哈末 (Ishak Bin Muhammad)", "阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "布哈努丁赫尔米医生 (Dr. Burhanuddin)"], answer: 0, exp: "拿督哈芝阿都华合是巫统第一任总秘书，霹雳州第一任州务大臣。" },
+            { id: 10, type: "identify", image: "lee.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["敦陈桢禄 (Tun Tan Cheng Lock)", "敦善班丹 (Tun V. T. Sambanthan)", "敦李孝式 (Tun H.S. Lee)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)"], answer: 2, exp: "敦李孝式是我国第一任财政部部长，推动各种族合作。" },
+            { id: 11, type: "identify", image: "sambanthan.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["敦善班丹 (Tun V. T. Sambanthan)", "敦李孝式 (Tun H.S. Lee)", "阿末波斯达曼 (Ahmad Boestamam)", "依萨莫哈末 (Ishak Bin Muhammad)"], answer: 0, exp: "敦善班丹是国大党 (MIC) 第五任主席，也是我国第一任卫生部部长。" },
+            { id: 12, type: "identify", image: "ismail.png", question: "图中这位争取国家独立的斗士是谁？ (Siapakah tokoh ini?)", options: ["敦阿都拉萨 (Tun Abdul Razak)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)", "东姑阿都拉曼 (Tunku Abdul Rahman)"], answer: 1, exp: "敦伊斯迈阿都拉曼医生曾出任巫统副主席，参与巫统与马华公会的联盟会谈。" },
+
+            // 13-36 题：概念理解
+            { id: 13, type: "concept", image: null, question: "1946年，谁担任了马来民族统一机构（巫统 UMNO）的第一任主席，并创办了马来亚独立党 (IMP)？", options: ["拿督翁嘉化 (Dato' Onn bin Ja'afar)", "东姑阿都拉曼 (Tunku Abdul Rahman)", "敦阿都拉萨 (Tun Abdul Razak)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)"], answer: 0, exp: "拿督翁嘉化是巫统 (UMNO) 创立者兼第一任主席，后来创办了马来亚独立党 (IMP)。" },
+            { id: 14, type: "concept", image: null, question: "拿督翁嘉化 (Dato' Onn bin Ja'afar) 曾担任哪一个州的州务大臣 (Menteri Besar)？", options: ["霹雳州 (Perak)", "雪兰莪州 (Selangor)", "柔佛州 (Johor)", "吉打州 (Kedah)"], answer: 2, exp: "拿督翁嘉化曾担任柔佛州务大臣 (Menteri Besar Johor)。" },
+            { id: 15, type: "concept", image: null, question: "哪一位斗士提倡“大马来由”(Melayu Raya) 的政治概念，并曾在1956年领导泛马回教党 (PAS)？", options: ["阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "布哈努丁赫尔米医生 (Dr. Burhanuddin al-Helmi)", "阿末波斯达曼 (Ahmad Boestamam)", "依萨莫哈末 (Ishak Bin Muhammad)"], answer: 1, exp: "布哈努丁赫尔米医生提出了“大马来由”(Melayu Raya) 的政治概念。" },
+            { id: 16, type: "concept", image: null, question: "1945年，布哈努丁赫尔米医生 (Dr. Burhanuddin al-Helmi) 出任了哪一个政党的第二任主席？", options: ["马来国民党 (PKMM)", "马来亚人民党 (PRM)", "马来亚劳工党 (Parti Buruh)", "穆斯林人民党 (Hizbul Muslimin)"], answer: 0, exp: "他于1945年出任马来国民党 (Parti Kebangsaan Melayu Malaya - PKMM) 第二任主席。" },
+            { id: 17, type: "concept", image: null, question: "谁在1946年出任马来觉醒青年团 (API) 团长，并出版了党报《人民之声》(Suara Rakyat)？", options: ["依萨莫哈末 (Ishak Bin Muhammad)", "阿末波斯达曼 (Ahmad Boestamam)", "布哈努丁赫尔米医生 (Dr. Burhanuddin)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)"], answer: 1, exp: "阿末波斯达曼领导了 API，并发行了《人民之声》(Suara Rakyat)。" },
+            { id: 18, type: "concept", image: null, question: "1955年，阿末波斯达曼 (Ahmad Boestamam) 创立了哪一个政党？", options: ["马来亚人民党 (Parti Rakyat Malaya - PRM)", "国大党 (MIC)", "马华公会 (MCA)", "巫统 (UMNO)"], answer: 0, exp: "阿末波斯达曼在1955年创立了马来亚人民党 (PRM)。" },
+            { id: 19, type: "concept", image: null, question: "1956年，谁率领马来亚联合邦独立代表团前往伦敦谈判，并成为我国第一任首相？", options: ["敦阿都拉萨 (Tun Abdul Razak)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)", "东姑阿都拉曼 (Tunku Abdul Rahman)", "敦陈桢禄 (Tun Tan Cheng Lock)"], answer: 2, exp: "东姑阿都拉曼率代表团赴伦敦谈独立，成为马来亚第一任首相。" },
+            { id: 20, type: "concept", image: null, question: "关于东姑阿都拉曼 (Tunku Abdul Rahman) 的贡献，下列哪项说明是正确的？", options: ["创办了《马来前锋报》", "在1952年创办联盟 (Parti Perikatan)", "担任巫统第一任主席", "提呈了《拉萨报告书》"], answer: 1, exp: "东姑阿都拉曼在1952年创办联盟 (Parti Perikatan)，并且是巫统第二任主席。" },
+            { id: 21, type: "concept", image: null, question: "谁在1934年辞去三级地庭推事 (Majistret Class III) 的职位，后来创办了《马来前锋报》(Utusan Melayu)？", options: ["阿末波斯达曼 (Ahmad Boestamam)", "依萨莫哈末 (Ishak Bin Muhammad)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)", "阿布巴卡阿巴基尔 (Abu Bakar)"], answer: 1, exp: "依萨莫哈末辞去推事职位投入报业，创办了《马来前锋报》(Utusan Melayu)。" },
+            { id: 22, type: "concept", image: null, question: "1957年，依萨莫哈末 (Ishak Bin Muhammad) 领导了哪一个政党？", options: ["马来亚劳工党 (Parti Buruh Malaya)", "泛马回教党 (PAS)", "马来觉醒青年团 (API)", "巫统 (UMNO)"], answer: 0, exp: "依萨莫哈末在1957年出任马来亚劳工党 (Parti Buruh Malaya) 领袖。" },
+            { id: 23, type: "concept", image: null, question: "谁在1934年成立了著名的伊斯兰宗教学校 (Maahad al-Ehya Assharif)，并于1948年领导穆斯林人民党 (Hizbul Muslimin)？", options: ["布哈努丁赫尔米医生 (Dr. Burhanuddin)", "阿布巴卡阿巴基尔 (Abu Bakar al-Baqir)", "拿督哈芝阿都华合 (Dato' Abdul Wahab)", "依萨莫哈末 (Ishak Bin Muhammad)"], answer: 1, exp: "阿布巴卡阿巴基尔深耕宗教与教育，创办 Maahad al-Ehya Assharif 并领导 Hizbul Muslimin。" },
+            { id: 24, type: "concept", image: null, question: "阿布巴卡阿巴基尔 (Abu Bakar al-Baqir) 在1948年主办了什么重要会议？", options: ["马来民族大会", "全马联合行动理事会会议", "马来亚宗教最高理事会会议 (Majlis Agama Tertinggi Se-Malaya)", "独立谈判会议"], answer: 2, exp: "他于1948年主办了马来亚宗教最高理事会 (Majlis Agama Tertinggi Se-Malaya) 会议。" },
+            { id: 25, type: "concept", image: null, question: "谁是马来亚华人公会（马华公会 MCA）的第一任总会长，并带领马华与巫统合作组成联盟？", options: ["敦李孝式 (Tun H.S. Lee)", "敦陈桢禄 (Tun Tan Cheng Lock)", "敦林苍佑 (Tun Lim Chong Eu)", "敦陈修信 (Tun Tan Siew Sin)"], answer: 1, exp: "敦陈桢禄是马华公会 (MCA) 创会总会长，积极培养华人效忠国家的意识。" },
+            { id: 26, type: "concept", image: null, question: "1949年，敦陈桢禄 (Tun Tan Cheng Lock) 出任了哪一个跨种族反殖民组织的主席？", options: ["全马联合行动理事会 (AMCJA)", "马来觉醒青年团 (API)", "马来亚劳工党 (Parti Buruh)", "马来亚人民党 (PRM)"], answer: 0, exp: "他是全马联合行动理事会 (All Malayan Council of Joint Action - AMCJA) 的主席。" },
+            { id: 27, type: "concept", image: null, question: "谁在1956年提呈了对国家教育体制影响深远的《拉萨报告书》(Penyata Razak)，并出任第一任副首相？", options: ["敦阿都拉萨 (Tun Abdul Razak)", "东姑阿都拉曼 (Tunku Abdul Rahman)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)"], answer: 0, exp: "敦阿都拉萨提呈了《拉萨报告书》，将马来语定为媒介语，是我国首任副首相。" },
+            { id: 28, type: "concept", image: null, question: "关于敦阿都拉萨 (Tun Abdul Razak) 的贡献，下列哪项说明是正确的？", options: ["创办《马来前锋报》", "将马来语定为媒介语 (Bahasa Melayu sebagai bahasa pengantar)", "担任马华公会第一任主席", "担任霹雳州州务大臣"], answer: 1, exp: "敦阿都拉萨通过教育改革，将马来语定为国家教育体系的媒介语。" },
+            { id: 29, type: "concept", image: null, question: "谁在1946年出任巫统 (UMNO) 第一任总秘书，并且是霹雳州 (Perak) 的第一任州务大臣？", options: ["拿督哈芝阿都华合 (Dato' Abdul Wahab)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)", "敦阿都拉萨 (Tun Abdul Razak)", "依萨莫哈末 (Ishak Bin Muhammad)"], answer: 0, exp: "拿督哈芝阿都华合曾任巫统首任总秘书及霹雳首任州务大臣 (Menteri Besar Perak)。" },
+            { id: 30, type: "concept", image: null, question: "1956年前往伦敦争取国家独立时，拿督哈芝阿都华合 (Dato' Abdul Wahab) 代表谁出席？", options: ["代表英国政府", "代表马来统治者 (Wakil Raja-raja Melayu)", "代表马华公会", "代表国大党"], answer: 1, exp: "他代表马来统治者 (Wakil Raja-raja Melayu) 赴伦敦进行独立谈判。" },
+            { id: 31, type: "concept", image: null, question: "谁推动了马华公会与巫统的合作，并成为我国第一任财政部部长 (Menteri Kewangan Pertama)？", options: ["敦陈桢禄 (Tun Tan Cheng Lock)", "敦李孝式 (Tun H.S. Lee)", "敦善班丹 (Tun V. T. Sambanthan)", "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)"], answer: 1, exp: "敦李孝式积极推动跨种族合作，是我国独立后的第一任财政部部长。" },
+            { id: 32, type: "concept", image: null, question: "1949年，敦李孝式 (Tun H.S. Lee) 出任了哪一个地方分会的会长？", options: ["马华公会雪兰莪分会 (MCA Selangor)", "马华公会霹雳分会 (MCA Perak)", "马华公会柔佛分会 (MCA Johor)", "马华公会槟城分会 (MCA Pulau Pinang)"], answer: 0, exp: "他在1949年出任马华公会雪兰莪分会会长。" },
+            { id: 33, type: "concept", image: null, question: "谁在1955年成为国大党 (MIC) 第五任主席，并出任马来亚联合邦第一任卫生部部长？", options: ["敦善班丹 (Tun V. T. Sambanthan)", "敦李孝式 (Tun H.S. Lee)", "布哈努丁赫尔米医生 (Dr. Burhanuddin)", "阿末波斯达曼 (Ahmad Boestamam)"], answer: 0, exp: "敦善班丹是国大党 (MIC) 领袖，并担任我国第一任卫生部部长 (Menteri Kesihatan Pertama)。" },
+            { id: 34, type: "concept", image: null, question: "敦善班丹 (Tun V. T. Sambanthan) 在1957年做出了什么重要贡献？", options: ["创办《人民之声》", "参与国家独立代表团前往伦敦谈判", "成立伊斯兰宗教学校", "辞去地庭推事职位"], answer: 1, exp: "他在1957年作为印度人社群代表，参与国家独立代表团前往伦敦。" },
+            { id: 35, type: "concept", image: null, question: "谁在1951年出任巫统副主席，并代表巫统与马华公会会谈以组成联盟 (Parti Perikatan)？", options: ["敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail)", "敦阿都拉萨 (Tun Abdul Razak)", "东姑阿都拉曼 (Tunku Abdul Rahman)", "拿督翁嘉化 (Dato' Onn bin Ja'afar)"], answer: 0, exp: "敦伊斯迈阿都拉曼医生在联盟 (Perikatan) 的建立过程中起到了关键的谈判作用。" },
+            { id: 36, type: "concept", image: null, question: "敦伊斯迈阿都拉曼医生 (Tun Dr. Ismail) 在1951年至1952年间的核心贡献是什么？", options: ["建立《拉萨报告书》", "代表巫统和马华公会会谈，并组成联盟", "创办《马来前锋报》", "出任霹雳州务大臣"], answer: 1, exp: "他在1951-1952年代表巫统与马华公会进行历史性会谈，促成了两党合作联盟。" }
+        ];
+
+        let queue = [];
+        let totalOriginal = 36;
+        let completedCount = 0;
+        let currentQuestion = null;
+        let isAnswered = false;
+
+        function filterChineseOnly(text) {
+            if (!text) return '';
+            let cleaned = text.replace(/[\(\（][^\)\）]*[\)\）]/g, '');
+            cleaned = cleaned.replace(/^Q(\d+)\.\s*/i, '第$1题：');
+            cleaned = cleaned.replace(/[a-zA-Z]+/g, function(match) {
+                if (/^[ABCD]$/i.test(match)) return match;
+                return '';
+            });
+            return cleaned.replace(/\s+/g, ' ').trim();
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let chineseOnlyText = filterChineseOnly(text);
+                if (!chineseOnlyText) return;
+
+                let utterance = new SpeechSynthesisUtterance(chineseOnlyText);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.88;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function speakCurrentQuestion() {
+            if (currentQuestion) {
+                speak(currentQuestion.question);
+            }
+        }
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function prepareQuestions() {
+            return rawQuestions.map(q => {
+                let mappedOptions = q.options.map((optText, idx) => ({
+                    text: optText,
+                    isCorrect: idx === q.answer
+                }));
+                mappedOptions = shuffleArray(mappedOptions);
+                
+                return {
+                    id: q.id,
+                    type: q.type,
+                    image: q.image,
+                    question: q.question,
+                    options: mappedOptions.map(o => o.text),
+                    answerIndex: mappedOptions.findIndex(o => o.isCorrect),
+                    exp: q.exp
+                };
+            });
+        }
+
+        function initQuiz() {
+            queue = prepareQuestions();
+            totalOriginal = queue.length;
+            completedCount = 0;
+            
+            document.getElementById("quizBox").style.display = "block";
+            document.getElementById("completedScreen").style.display = "none";
+            
+            updateTokohUIStats();
+            loadQuestion();
+        }
+
+        function updateTokohUIStats() {
+            document.getElementById("completedCount").innerText = completedCount;
+            document.getElementById("remainingCount").innerText = queue.length;
+            let progressPercent = (completedCount / totalOriginal) * 100;
+            document.getElementById("progressBar").style.width = progressPercent + "%";
+        }
+
+        function loadQuestion() {
+            if (queue.length === 0) {
+                showCompletedTokohScreen();
+                return;
+            }
+
+            isAnswered = false;
+            currentQuestion = queue[0];
+
+            document.getElementById("nextBtn").style.display = "none";
+            let expDiv = document.getElementById("explanation");
+            expDiv.style.display = "none";
+            expDiv.className = "explanation";
+
+            document.getElementById("questionText").innerText = `Q${completedCount + 1}. ${currentQuestion.question}`;
+
+            let imgElem = document.getElementById("avatar");
+            if (currentQuestion.image) {
+                imgElem.src = currentQuestion.image;
+                imgElem.style.display = "inline-block";
+            } else {
+                imgElem.style.display = "none";
+            }
+
+            let grid = document.getElementById("optionsGrid");
+            grid.innerHTML = "";
+            
+            currentQuestion.options.forEach((optText, idx) => {
+                let optionItem = document.createElement("div");
+                optionItem.className = "flex items-center gap-2";
+
+                let btn = document.createElement("button");
+                btn.className = "btn-option";
+                let prefix = String.fromCharCode(65 + idx);
+                btn.innerText = `${prefix}. ${optText}`;
+                btn.onclick = () => handleAnswer(idx, btn);
+
+                let voiceBtn = document.createElement("button");
+                voiceBtn.className = "btn-voice";
+                voiceBtn.innerHTML = "🔊";
+                voiceBtn.title = "朗读此选项";
+                voiceBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    speak(`选项 ${prefix}: ${optText}`);
+                };
+
+                optionItem.appendChild(btn);
+                optionItem.appendChild(voiceBtn);
+                grid.appendChild(optionItem);
+            });
+        }
+
+        function handleAnswer(selectedIndex, selectedBtn) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            let grid = document.getElementById("optionsGrid");
+            let buttons = grid.getElementsByClassName("btn-option");
+            let expDiv = document.getElementById("explanation");
+            let isCorrect = (selectedIndex === currentQuestion.answerIndex);
+
+            buttons[currentQuestion.answerIndex].classList.add("correct");
+
+            if (isCorrect) {
+                if (!selectedBtn.classList.contains("correct")) {
+                    selectedBtn.classList.add("correct");
+                }
+                expDiv.innerHTML = `<strong>✅ 回答正确！(Betul!)</strong><br>${currentQuestion.exp}`;
+                expDiv.classList.add("correct-bg");
+                expDiv.style.display = "block";
+                
+                speak("回答正确！");
+
+                queue.shift();
+                completedCount++;
+            } else {
+                selectedBtn.classList.add("wrong");
+                expDiv.innerHTML = `<strong>❌ 回答错误！(Salah)</strong><br>正确答案是：<strong>${currentQuestion.options[currentQuestion.answerIndex]}</strong><br><em>解析：${currentQuestion.exp}</em><br><br><small class="text-xs opacity-75">⚠️ 本题已重新排列至后续题目中，请继续加油！</small>`;
+                expDiv.classList.add("wrong-bg");
+                expDiv.style.display = "block";
+
+                speak("回答错误，请再接再厉。");
+
+                let wrongQ = queue.shift();
+                let insertIndex = Math.min(3, queue.length);
+                queue.splice(insertIndex, 0, wrongQ);
+            }
+
+            updateTokohUIStats();
+            document.getElementById("nextBtn").style.display = "block";
+        }
+
+        function loadNextQuestion() {
+            loadQuestion();
+        }
+
+        function showCompletedTokohScreen() {
+            document.getElementById("quizBox").style.display = "none";
+            document.getElementById("completedScreen").style.display = "block";
+            document.getElementById("progressBar").style.width = "100%";
+            speak("恭喜你！完成了所有练习！");
+        }
+
+
+        // ================= 模块二：独立之路时间线 逻辑 =================
+        const allAnswers = [
+            "苦难", "地方领袖", 
+            "马来亚联邦", "马来统治者", "拿督翁嘉化", 
+            "锡矿", "紧急状态", "华玲会谈", 
+            "巫统", "马华公会", "泛马来亚伊斯兰党", 
+            "联盟", "东姑阿都拉曼", "首席部长", 
+            "独立代表团", "伦敦", "英国政府", 
+            "1957年8月31日", "马来亚联合邦"
+        ];
+
+        let currentSelectedOption = null;
+
+        function renderOptions(isManualReshuffle = false) {
+            const container = document.getElementById('options-box');
+            if (!container) return;
+
+            const usedSet = new Set();
+            document.querySelectorAll('.drop-slot.correct-slot').forEach(slot => {
+                const ans = slot.getAttribute('data-answer');
+                if (ans) usedSet.add(ans);
+            });
+
+            const shuffledAnswers = shuffleArray(allAnswers);
+            container.innerHTML = '';
+
+            shuffledAnswers.forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = word;
+                if (usedSet.has(word)) {
+                    btn.classList.add('used');
+                }
+                btn.onclick = () => selectOption(btn, word);
+                container.appendChild(btn);
+            });
+
+            currentSelectedOption = null;
+
+            if (isManualReshuffle) {
+                showToast("🔀 候选词汇顺序已打乱！");
+            }
+        }
+
+        function selectOption(btnElement, textValue) {
+            if (btnElement.classList.contains('used')) return;
+            document.querySelectorAll('#sticky-options-container .option-btn').forEach(btn => btn.classList.remove('selected'));
+            btnElement.classList.add('selected');
+            currentSelectedOption = { element: btnElement, value: textValue };
+        }
+
+        function handleSlotClick(slotElement) {
+            if (slotElement.classList.contains('correct-slot')) return;
+
+            if (!currentSelectedOption) {
+                showToast("⚠️ 请先点击底部候选词区中的词语！");
+                return;
+            }
+
+            const expectedAnswer = slotElement.getAttribute('data-answer');
+            const selectedValue = currentSelectedOption.value;
+
+            if (selectedValue === expectedAnswer) {
+                slotElement.innerHTML = `${selectedValue} <span class="flag-anim">🇲🇾</span>`;
+                slotElement.className = "drop-slot correct-slot";
+
+                currentSelectedOption.element.classList.remove('selected');
+                currentSelectedOption.element.classList.add('used');
+                currentSelectedOption = null;
+
+                if (navigator.vibrate) navigator.vibrate(120);
+
+                updateTimelineProgress();
+            } else {
+                slotElement.innerText = selectedValue;
+                slotElement.classList.add('shake-bounce');
+
+                if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+
+                setTimeout(() => {
+                    slotElement.innerText = "点击填空";
+                    slotElement.classList.remove('shake-bounce');
+                }, 550);
+            }
+        }
+
+        function updateTimelineProgress() {
+            const totalSlots = document.querySelectorAll('.drop-slot').length;
+            const filledSlots = document.querySelectorAll('.drop-slot.correct-slot').length;
+            
+            const txtElem = document.getElementById('progress-text');
+            const fillElem = document.getElementById('progress-fill');
+
+            if (txtElem) txtElem.innerText = `进度: ${filledSlots} / ${totalSlots}`;
+            if (fillElem) {
+                const percentage = (filledSlots / totalSlots) * 100;
+                fillElem.style.width = `${percentage}%`;
+            }
+
+            if (totalSlots > 0 && totalSlots === filledSlots) {
+                setTimeout(() => {
+                    showToast("🎉 太棒了！你已成功完成所有历史时间线填空评估！");
+                }, 400);
+            }
+        }
+
+        // 默认初始化呈现 Dashboard 首页
+        window.onload = function() {
+            showView('dashboard');
+        };
+    </script>
+</body>
+</html>
